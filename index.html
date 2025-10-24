@@ -1,613 +1,731 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vulnerabilidades y Ataques en la Web</title>
     <style>
-      :root {
-        --primary: #6a0dad;
-        --primary-light: #8a2be2;
-        --secondary: #00b4d8;
-        --dark-bg: #121212;
-        --dark-card: #1e1e1e;
-        --dark-text: #e0e0e0;
-        --dark-border: #333;
-        --accent: #ff4081;
-        --success: #4caf50;
-        --warning: #ff9800;
-        --danger: #f44336;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      }
-
-      body {
-        background-color: var(--dark-bg);
-        color: var(--dark-text);
-        line-height: 1.6;
-        overflow-x: hidden;
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-      }
-
-      /* Header Styles */
-      header {
-        background: linear-gradient(
-          135deg,
-          var(--primary),
-          var(--primary-light)
-        );
-        padding: 2rem 0;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-      }
-
-      header::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==");
-      }
-
-      .header-content {
-        position: relative;
-        z-index: 1;
-      }
-
-      h1 {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-        color: white;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      }
-
-      .subtitle {
-        font-size: 1.2rem;
-        opacity: 0.9;
-        max-width: 800px;
-        margin: 0 auto;
-      }
-
-      /* Navigation */
-      nav {
-        background-color: rgba(30, 30, 30, 0.9);
-        backdrop-filter: blur(10px);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        border-bottom: 1px solid var(--dark-border);
-      }
-
-      .nav-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem 0;
-      }
-
-      .logo {
-        font-weight: bold;
-        font-size: 1.5rem;
-        color: var(--secondary);
-      }
-
-      .nav-links {
-        display: flex;
-        list-style: none;
-      }
-
-      .nav-links li {
-        margin-left: 2rem;
-      }
-
-      .nav-links a {
-        color: var(--dark-text);
-        text-decoration: none;
-        transition: color 0.3s;
-        font-weight: 500;
-      }
-
-      .nav-links a:hover {
-        color: var(--secondary);
-      }
-
-      /* Main Content */
-      main {
-        padding: 3rem 0;
-      }
-
-      section {
-        margin-bottom: 4rem;
-        background-color: var(--dark-card);
-        border-radius: 10px;
-        padding: 2rem;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        border: 1px solid var(--dark-border);
-        transition: transform 0.3s, box-shadow 0.3s;
-      }
-
-      section:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-      }
-
-      h2 {
-        color: var(--secondary);
-        margin-bottom: 1.5rem;
-        font-size: 1.8rem;
-        display: flex;
-        align-items: center;
-      }
-
-      h2 i {
-        margin-right: 10px;
-        font-size: 1.5rem;
-      }
-
-      p {
-        margin-bottom: 1rem;
-      }
-
-      /* Footer */
-      footer {
-        background-color: var(--dark-card);
-        padding: 2rem 0;
-        text-align: center;
-        border-top: 1px solid var(--dark-border);
-      }
-
-      .footer-content {
-        max-width: 800px;
-        margin: 0 auto;
-      }
-
-      /* Responsive */
-      @media (max-width: 768px) {
-        .nav-container {
-          flex-direction: column;
+        :root {
+            --primary: #6a0dad;
+            --primary-light: #8a2be2;
+            --secondary: #00b4d8;
+            --dark-bg: #121212;
+            --dark-card: #1e1e1e;
+            --dark-text: #e0e0e0;
+            --dark-border: #333;
+            --accent: #ff4081;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
         }
 
-        .nav-links {
-          margin-top: 1rem;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .nav-links li {
-          margin: 0 0.5rem;
+        body {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg,
+                    var(--primary),
+                    var(--primary-light));
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==");
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
         }
 
         h1 {
-          font-size: 2rem;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--dark-text);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        /* Main Content */
+        main {
+            padding: 3rem 0;
         }
 
         section {
-          padding: 1.5rem;
+            margin-bottom: 4rem;
+            background-color: var(--dark-card);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--dark-border);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-      }
-    </style>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-  </head>
 
-  <body>
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        h2 i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-card);
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid var(--dark-border);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                margin-top: 1rem;
+            }
+
+            .nav-links li {
+                margin: 0 0.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body>
     <header>
-      <div class="container">
-        <div class="header-content">
-          <h1>
-            <i class="fas fa-microphone"></i> Exposición: Vulnerabilidades y
-            ataques en la web
-          </h1>
-          <p class="subtitle">
-            Conoce, previene y protege tu información en el mundo digital
-          </p>
+        <div class="container">
+            <div class="header-content">
+                <h1>
+                    <i class="fas fa-microphone"></i> Exposición: Vulnerabilidades y
+                    ataques en la web
+                </h1>
+                <p class="subtitle">
+                    Conoce, previene y protege tu información en el mundo digital
+                </p>
+            </div>
         </div>
-      </div>
     </header>
 
     <nav>
-      <div class="container nav-container">
-        <div class="logo">SeguridadWeb</div>
-        <ul class="nav-links">
-          <li><a href="#introduccion">Introducción</a></li>
-          <li><a href="#vulnerabilidades">Vulnerabilidades</a></li>
-          <li><a href="#ataques">Ataques</a></li>
-          <li><a href="#consecuencias">Consecuencias</a></li>
-          <li><a href="#conclusiones">Conclusiones</a></li>
-          <li><a href="#recomendaciones">Recomendaciones</a></li>
-        </ul>
-      </div>
+        <div class="container nav-container">
+            <div class="logo">SeguridadWeb</div>
+            <ul class="nav-links">
+                <li><a href="#introduccion">Introducción</a></li>
+                <li><a href="#vulnerabilidades">Vulnerabilidades</a></li>
+                <li><a href="#ataques">Ataques</a></li>
+                <li><a href="#consecuencias">Consecuencias</a></li>
+                <li><a href="#conclusiones">Conclusiones</a></li>
+                <li><a href="#recomendaciones">Recomendaciones</a></li>
+            </ul>
+        </div>
     </nav>
 
     <main class="container">
-      <!-- Las secciones de contenido irán aquí -->
-      <!-- Este archivo se fusionaría con estructura-base -->
-      <style>
-        /* Lists */
-        ul {
-          margin-left: 1.5rem;
-          margin-bottom: 1.5rem;
-        }
-
-        li {
-          margin-bottom: 0.5rem;
-        }
-
-        /* Cards for attacks */
-        .attack-cards {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-          gap: 1.5rem;
-          margin-top: 1.5rem;
-        }
-
-        .attack-card {
-          background-color: rgba(40, 40, 40, 0.7);
-          border-radius: 8px;
-          padding: 1.5rem;
-          border-left: 4px solid var(--primary);
-          transition: transform 0.3s, background-color 0.3s;
-        }
-
-        .attack-card:hover {
-          transform: translateY(-3px);
-          background-color: rgba(50, 50, 50, 0.7);
-        }
-
-        .attack-card h3 {
-          color: var(--primary-light);
-          margin-bottom: 0.8rem;
-          font-size: 1.3rem;
-        }
-
-        .attack-card .definition {
-          margin-bottom: 1rem;
-          font-style: italic;
-        }
-
-        .attack-card .example,
-        .attack-card .prevention,
-        .attack-card .consequences {
-          margin-bottom: 0.8rem;
-        }
-
-        .attack-card strong {
-          color: var(--secondary);
-        }
-
-        /* Conclusion section */
-        .conclusion {
-          background: linear-gradient(135deg, var(--dark-card), #2a2a2a);
-          border-left: 5px solid var(--success);
-        }
-
-        /* Recommendations */
-        .recommendations {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-          gap: 1rem;
-          margin-top: 1.5rem;
-        }
-
-        .recommendation {
-          background-color: rgba(40, 40, 40, 0.7);
-          border-radius: 8px;
-          padding: 1rem;
-          text-align: center;
-          transition: transform 0.3s;
-        }
-
-        .recommendation:hover {
-          transform: scale(1.05);
-        }
-
-        .recommendation i {
-          font-size: 2rem;
-          color: var(--secondary);
-          margin-bottom: 0.5rem;
-        }
-      </style>
-
-      <script>
-        // Add active class to current section in navigation
-        window.addEventListener("scroll", function () {
-          const sections = document.querySelectorAll("section");
-          const navLinks = document.querySelectorAll(".nav-links a");
-
-          let current = "";
-
-          sections.forEach((section) => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (pageYOffset >= sectionTop - 150) {
-              current = section.getAttribute("id");
+        <!-- Las secciones de contenido irán aquí -->
+        <!-- Este archivo se fusionaría con estructura-base -->
+        <style>
+            /* Lists */
+            ul {
+                margin-left: 1.5rem;
+                margin-bottom: 1.5rem;
             }
-          });
 
-          navLinks.forEach((link) => {
-            link.classList.remove("active");
-            if (link.getAttribute("href") === `#${current}`) {
-              link.classList.add("active");
+            li {
+                margin-bottom: 0.5rem;
             }
-          });
-        });
-      </script>
 
-      <!-- Contenido de las secciones -->
-      <section id="introduccion">
-        <h2><i class="fas fa-puzzle-piece"></i> 1. Introducción</h2>
-        <p>
-          En la actualidad, la mayoría de los servicios que usamos —redes
-          sociales, tiendas en línea, plataformas bancarias y sistemas
-          empresariales— funcionan a través de aplicaciones web. Sin embargo,
-          esta gran conectividad también ha traído consigo vulnerabilidades que
-          pueden ser explotadas por ataques o amenazas informáticas.
-        </p>
-        <p>
-          Por eso, conocerlas, entender cómo se previenen y cuáles son sus
-          consecuencias es clave para garantizar la seguridad de la información
-          y la confianza de los usuarios.
-        </p>
-      </section>
+            /* Cards for attacks */
+            .attack-cards {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 1.5rem;
+                margin-top: 1.5rem;
+            }
 
-      <section id="vulnerabilidades">
-        <h2>
-          <i class="fas fa-lock"></i> 2. ¿Qué son las vulnerabilidades en la
-          web?
-        </h2>
-        <p>
-          Las vulnerabilidades son debilidades o fallos en un sistema,
-          aplicación o red que pueden ser aprovechados por atacantes para
-          comprometer la seguridad.
-        </p>
-        <p>
-          Estas fallas pueden deberse a errores de programación, configuraciones
-          inseguras o falta de actualizaciones.
-        </p>
+            .attack-card {
+                background-color: rgba(40, 40, 40, 0.7);
+                border-radius: 8px;
+                padding: 1.5rem;
+                border-left: 4px solid var(--primary);
+                transition: transform 0.3s, background-color 0.3s;
+            }
 
-        <h3><i class="fas fa-exclamation-circle"></i> Ejemplos comunes:</h3>
-        <ul>
-          <li>Código mal validado en formularios web.</li>
-          <li>Uso de contraseñas débiles o visibles.</li>
-          <li>Falta de cifrado en la comunicación.</li>
-          <li>Permisos mal configurados en servidores.</li>
-        </ul>
+            .attack-card:hover {
+                transform: translateY(-3px);
+                background-color: rgba(50, 50, 50, 0.7);
+            }
 
-        <h3><i class="fas fa-shield-alt"></i> Prevención o mitigación:</h3>
-        <ul>
-          <li>Mantener el software actualizado.</li>
-          <li>Validar y sanitizar toda entrada de usuario.</li>
-          <li>Utilizar protocolos seguros como HTTPS.</li>
-          <li>Aplicar políticas de contraseñas fuertes.</li>
-          <li>Realizar auditorías y pruebas de penetración periódicas.</li>
-        </ul>
-      </section>
+            .attack-card h3 {
+                color: var(--primary-light);
+                margin-bottom: 0.8rem;
+                font-size: 1.3rem;
+            }
 
-      <section id="ataques">
-        <h2>
-          <i class="fas fa-shield-virus"></i> 3. Principales ataques y amenazas
-          en la web
-        </h2>
+            .attack-card .definition {
+                margin-bottom: 1rem;
+                font-style: italic;
+            }
 
-        <div class="attack-cards">
-          <div class="attack-card">
-            <h3>a Inyección SQL</h3>
-            <p class="definition">
-              <strong>Definición:</strong> El atacante inserta comandos SQL
-              maliciosos en formularios o URLs para manipular bases de datos.
-            </p>
-            <p class="example">
-              <strong>Ejemplo:</strong> Ingresar ' OR '1'='1 en un campo de
-              login.
-            </p>
-            <p class="prevention">
-              <strong>Prevención:</strong> Usar consultas preparadas o ORM,
-              validar entradas y limitar los permisos de la base de datos.
-            </p>
-            <p class="consequences">
-              <strong>Consecuencias:</strong> Robo o eliminación de datos,
-              acceso no autorizado a información sensible.
-            </p>
-          </div>
+            .attack-card .example,
+            .attack-card .prevention,
+            .attack-card .consequences {
+                margin-bottom: 0.8rem;
+            }
 
-          <div class="attack-card">
-            <h3>b Cross-Site Scripting (XSS)</h3>
-            <p class="definition">
-              <strong>Definición:</strong> El atacante inyecta scripts
-              maliciosos en sitios web que luego son ejecutados en el navegador
-              de otros usuarios.
-            </p>
-            <p class="prevention">
-              <strong>Prevención:</strong> Escapar correctamente las entradas de
-              usuario, usar políticas CSP (Content Security Policy).
-            </p>
-            <p class="consequences">
-              <strong>Consecuencias:</strong> Robo de cookies, secuestro de
-              sesiones, suplantación de identidad.
-            </p>
-          </div>
+            .attack-card strong {
+                color: var(--secondary);
+            }
 
-          <div class="attack-card">
-            <h3>c Cross-Site Request Forgery (CSRF)</h3>
-            <p class="definition">
-              <strong>Definición:</strong> El atacante engaña al usuario para
-              que realice acciones no deseadas mientras está autenticado.
-            </p>
-            <p class="prevention">
-              <strong>Prevención:</strong> Utilizar tokens CSRF únicos por
-              sesión, verificar el origen de las peticiones.
-            </p>
-            <p class="consequences">
-              <strong>Consecuencias:</strong> Cambios no autorizados en cuentas,
-              transferencias o configuraciones.
-            </p>
-          </div>
+            /* Conclusion section */
+            .conclusion {
+                background: linear-gradient(135deg, var(--dark-card), #2a2a2a);
+                border-left: 5px solid var(--success);
+            }
 
-          <div class="attack-card">
-            <h3>d Ataques de Denegación de Servicio (DoS / DDoS)</h3>
-            <p class="definition">
-              <strong>Definición:</strong> Se saturan los servidores con gran
-              cantidad de solicitudes, haciendo que el servicio se caiga o sea
-              inaccesible.
-            </p>
-            <p class="prevention">
-              <strong>Prevención:</strong> Implementar firewalls, CDN y sistemas
-              de detección de tráfico anómalo.
-            </p>
-            <p class="consequences">
-              <strong>Consecuencias:</strong> Interrupción de servicios, pérdida
-              de ingresos y daño reputacional.
-            </p>
-          </div>
+            /* Recommendations */
+            .recommendations {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+                margin-top: 1.5rem;
+            }
 
-          <div class="attack-card">
-            <h3>e Phishing</h3>
-            <p class="definition">
-              <strong>Definición:</strong> Engaño mediante correos o sitios
-              falsos para robar información personal o credenciales.
-            </p>
-            <p class="prevention">
-              <strong>Prevención:</strong> Educación del usuario, uso de
-              autenticación de dos factores (2FA) y filtros antiphishing.
-            </p>
-            <p class="consequences">
-              <strong>Consecuencias:</strong> Robo de identidades, accesos
-              indebidos a cuentas bancarias o empresariales.
-            </p>
-          </div>
+            .recommendation {
+                background-color: rgba(40, 40, 40, 0.7);
+                border-radius: 8px;
+                padding: 1rem;
+                text-align: center;
+                transition: transform 0.3s;
+            }
 
-          <div class="attack-card">
-            <h3>f Malware y Ransomware</h3>
-            <p class="definition">
-              <strong>Definición:</strong> Programas maliciosos que pueden
-              infectar sistemas, espiar o cifrar información para pedir rescate.
-            </p>
-            <p class="prevention">
-              <strong>Prevención:</strong> Usar antivirus actualizados, no
-              descargar archivos sospechosos, hacer copias de seguridad.
-            </p>
-            <p class="consequences">
-              <strong>Consecuencias:</strong> Pérdida total de datos, daño
-              económico y operativo.
-            </p>
-          </div>
-        </div>
-      </section>
+            .recommendation:hover {
+                transform: scale(1.05);
+            }
 
-      <section id="consecuencias">
-        <h2>
-          <i class="fas fa-exclamation-triangle"></i> 4. Consecuencias de que se
-          materialicen las vulnerabilidades
-        </h2>
-        <p>
-          Cuando una vulnerabilidad es explotada, las consecuencias pueden ser
-          graves:
-        </p>
-        <ul>
-          <li>
-            Pérdida o filtración de datos sensibles (usuarios, contraseñas,
-            información financiera).
-          </li>
-          <li>Daño a la reputación de la empresa o institución.</li>
-          <li>Pérdidas económicas por inactividad, multas o demandas.</li>
-          <li>Interrupción de servicios esenciales.</li>
-          <li>
-            Desconfianza de los usuarios, lo cual afecta directamente la
-            continuidad del negocio.
-          </li>
-        </ul>
-      </section>
+            .recommendation i {
+                font-size: 2rem;
+                color: var(--secondary);
+                margin-bottom: 0.5rem;
+            }
+        </style>
 
-      <section id="conclusiones" class="conclusion">
-        <h2><i class="fas fa-brain"></i> 5. Conclusiones</h2>
-        <p>
-          La seguridad web no depende de una sola herramienta, sino de una
-          cultura de prevención constante.
-        </p>
-        <p>
-          Implementar buenas prácticas, realizar pruebas de seguridad, capacitar
-          al personal y actualizar los sistemas son pasos esenciales para
-          reducir riesgos.
-        </p>
-        <p>
-          En un entorno tan digitalizado, la seguridad es una responsabilidad
-          compartida entre desarrolladores, administradores y usuarios.
-        </p>
-      </section>
+        <script>
+            // Add active class to current section in navigation
+            window.addEventListener("scroll", function () {
+                const sections = document.querySelectorAll("section");
+                const navLinks = document.querySelectorAll(".nav-links a");
 
-      <section id="recomendaciones">
-        <h2><i class="fas fa-book"></i> 6. Recomendaciones adicionales</h2>
-        <div class="recommendations">
-          <div class="recommendation">
-            <i class="fas fa-user-shield"></i>
+                let current = "";
+
+                sections.forEach((section) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= sectionTop - 150) {
+                        current = section.getAttribute("id");
+                    }
+                });
+
+                navLinks.forEach((link) => {
+                    link.classList.remove("active");
+                    if (link.getAttribute("href") === `#${current}`) {
+                        link.classList.add("active");
+                    }
+                });
+            });
+        </script>
+
+        <!-- Contenido de las secciones -->
+        <section id="introduccion">
+            <h2><i class="fas fa-puzzle-piece"></i> 1. Introducción</h2>
             <p>
-              Aplicar el principio de mínimo privilegio en usuarios y sistemas.
+                En la actualidad, la mayoría de los servicios que usamos —redes
+                sociales, tiendas en línea, plataformas bancarias y sistemas
+                empresariales— funcionan a través de aplicaciones web. Sin embargo,
+                esta gran conectividad también ha traído consigo vulnerabilidades que
+                pueden ser explotadas por ataques o amenazas informáticas.
             </p>
-          </div>
-          <div class="recommendation">
-            <i class="fas fa-chart-line"></i>
             <p>
-              Monitorear continuamente el tráfico y los registros del servidor.
+                Por eso, conocerlas, entender cómo se previenen y cuáles son sus
+                consecuencias es clave para garantizar la seguridad de la información
+                y la confianza de los usuarios.
             </p>
-          </div>
-          <div class="recommendation">
-            <i class="fas fa-cogs"></i>
+        </section>
+
+        <section id="vulnerabilidades">
+            <h2>
+                <i class="fas fa-lock"></i> 2. ¿Qué son las vulnerabilidades en la
+                web?
+            </h2>
             <p>
-              Usar frameworks modernos que ya integren medidas de seguridad.
+                Las vulnerabilidades son debilidades o fallos en un sistema,
+                aplicación o red que pueden ser aprovechados por atacantes para
+                comprometer la seguridad.
             </p>
-          </div>
-          <div class="recommendation">
-            <i class="fas fa-save"></i>
             <p>
-              Realizar copias de seguridad periódicas de bases de datos y
-              archivos críticos.
+                Estas fallas pueden deberse a errores de programación, configuraciones
+                inseguras o falta de actualizaciones.
             </p>
-          </div>
-        </div>
-      </section>
+
+            <h3><i class="fas fa-exclamation-circle"></i> Ejemplos comunes:</h3>
+            <ul>
+                <li>Código mal validado en formularios web.</li>
+                <li>Uso de contraseñas débiles o visibles.</li>
+                <li>Falta de cifrado en la comunicación.</li>
+                <li>Permisos mal configurados en servidores.</li>
+            </ul>
+
+            <h3><i class="fas fa-shield-alt"></i> Prevención o mitigación:</h3>
+            <ul>
+                <li>Mantener el software actualizado.</li>
+                <li>Validar y sanitizar toda entrada de usuario.</li>
+                <li>Utilizar protocolos seguros como HTTPS.</li>
+                <li>Aplicar políticas de contraseñas fuertes.</li>
+                <li>Realizar auditorías y pruebas de penetración periódicas.</li>
+            </ul>
+        </section>
+
+        <section id="ataques">
+            <h2>
+                <i class="fas fa-shield-virus"></i> 3. Principales ataques y amenazas
+                en la web
+            </h2>
+
+            <div class="attack-cards">
+                <div class="attack-card">
+                    <h3>a Inyección SQL</h3>
+                    <p class="definition">
+                        <strong>Definición:</strong> El atacante inserta comandos SQL
+                        maliciosos en formularios o URLs para manipular bases de datos.
+                    </p>
+                    <p class="example">
+                        <strong>Ejemplo:</strong> Ingresar ' OR '1'='1 en un campo de
+                        login.
+                    </p>
+                    <p class="prevention">
+                        <strong>Prevención:</strong> Usar consultas preparadas o ORM,
+                        validar entradas y limitar los permisos de la base de datos.
+                    </p>
+                    <p class="consequences">
+                        <strong>Consecuencias:</strong> Robo o eliminación de datos,
+                        acceso no autorizado a información sensible.
+                    </p>
+                </div>
+
+                <div class="attack-card">
+                    <h3>b Cross-Site Scripting (XSS)</h3>
+                    <p class="definition">
+                        <strong>Definición:</strong> El atacante inyecta scripts
+                        maliciosos en sitios web que luego son ejecutados en el navegador
+                        de otros usuarios.
+                    </p>
+                    <p class="prevention">
+                        <strong>Prevención:</strong> Escapar correctamente las entradas de
+                        usuario, usar políticas CSP (Content Security Policy).
+                    </p>
+                    <p class="consequences">
+                        <strong>Consecuencias:</strong> Robo de cookies, secuestro de
+                        sesiones, suplantación de identidad.
+                    </p>
+                </div>
+
+                <div class="attack-card">
+                    <h3>c Cross-Site Request Forgery (CSRF)</h3>
+                    <p class="definition">
+                        <strong>Definición:</strong> El atacante engaña al usuario para
+                        que realice acciones no deseadas mientras está autenticado.
+                    </p>
+                    <p class="prevention">
+                        <strong>Prevención:</strong> Utilizar tokens CSRF únicos por
+                        sesión, verificar el origen de las peticiones.
+                    </p>
+                    <p class="consequences">
+                        <strong>Consecuencias:</strong> Cambios no autorizados en cuentas,
+                        transferencias o configuraciones.
+                    </p>
+                </div>
+
+                <div class="attack-card">
+                    <h3>d Ataques de Denegación de Servicio (DoS / DDoS)</h3>
+                    <p class="definition">
+                        <strong>Definición:</strong> Se saturan los servidores con gran
+                        cantidad de solicitudes, haciendo que el servicio se caiga o sea
+                        inaccesible.
+                    </p>
+                    <p class="prevention">
+                        <strong>Prevención:</strong> Implementar firewalls, CDN y sistemas
+                        de detección de tráfico anómalo.
+                    </p>
+                    <p class="consequences">
+                        <strong>Consecuencias:</strong> Interrupción de servicios, pérdida
+                        de ingresos y daño reputacional.
+                    </p>
+                </div>
+
+                <div class="attack-card">
+                    <h3>e Phishing</h3>
+                    <p class="definition">
+                        <strong>Definición:</strong> Engaño mediante correos o sitios
+                        falsos para robar información personal o credenciales.
+                    </p>
+                    <p class="prevention">
+                        <strong>Prevención:</strong> Educación del usuario, uso de
+                        autenticación de dos factores (2FA) y filtros antiphishing.
+                    </p>
+                    <p class="consequences">
+                        <strong>Consecuencias:</strong> Robo de identidades, accesos
+                        indebidos a cuentas bancarias o empresariales.
+                    </p>
+                </div>
+
+                <div class="attack-card">
+                    <h3>f Malware y Ransomware</h3>
+                    <p class="definition">
+                        <strong>Definición:</strong> Programas maliciosos que pueden
+                        infectar sistemas, espiar o cifrar información para pedir rescate.
+                    </p>
+                    <p class="prevention">
+                        <strong>Prevención:</strong> Usar antivirus actualizados, no
+                        descargar archivos sospechosos, hacer copias de seguridad.
+                    </p>
+                    <p class="consequences">
+                        <strong>Consecuencias:</strong> Pérdida total de datos, daño
+                        económico y operativo.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="riesgos-cloud">
+            <h2>
+                <i class="fas fa-cloud"></i> 3.1 Riesgos en infraestructuras y entornos cloud (A–K)
+            </h2>
+
+            <div class="attack-cards">
+                <div class="attack-card">
+                    <h3>A Mala configuración de recursos (Misconfiguration)</h3>
+                    <p class="definition"><strong>Qué es:</strong> Errores en permisos, buckets públicos, reglas de
+                        firewall abiertas, servicios expuestos sin autenticar.</p>
+                    <p class="prevention"><strong>Prevención / Mitigación:</strong> Automatizar hardening (plantillas
+                        IaC seguras), revisar configuraciones con escáneres, aplicar políticas de “deny by default”.</p>
+                    <p class="consequences"><strong>Consecuencias:</strong> Fuga de datos, acceso no autorizado,
+                        exposición de secretos.</p>
+                </div>
+
+                <div class="attack-card">
+                    <h3>B Control de acceso e identidad débil (IAM mal gestionado)</h3>
+                    <p class="definition"><strong>Qué es:</strong> Uso excesivo de permisos, credenciales de larga
+                        duración, no usar roles temporales.</p>
+                    <p class="prevention"><strong>Prevención / Mitigación:</strong> Principio de mínimo privilegio,
+                        roles con permisos mínimos, uso de roles temporales/STS, rotación automática de claves, MFA
+                        obligatoria.</p>
+                    <p class="consequences"><strong>Consecuencias:</strong> Escalado de privilegios, compromisos
+                        amplificados, movimientos laterales.</p>
+                </div>
+
+                <div class="attack-card">
+                    <h3>C Exposición de APIs e interfaces inseguras</h3>
+                    <p class="definition"><strong>Qué es:</strong> APIs REST/GraphQL sin autenticación, sin rate
+                        limiting o con validación pobre.</p>
+                    <p class="prevention"><strong>Prevención / Mitigación:</strong> Autenticación fuerte (OAuth,
+                        tokens), validación y saneamiento de entrada, WAF, límites de tasa y circuit breakers.</p>
+                    <p class="consequences"><strong>Consecuencias:</strong> Robo de datos, ejecución remota,
+                        manipulación de servicios.</p>
+                </div>
+
+                <div class="attack-card">
+                    <h3>D Robo de credenciales / Account hijacking</h3>
+                    <p class="definition"><strong>Qué es:</strong> Credenciales (keys, tokens) expuestas en
+                        repositorios, logs o configuraciones.</p>
+                    <p class="prevention"><strong>Prevención / Mitigación:</strong> Nunca hardcodear secretos; usar
+                        servicios de gestión de secretos (Secret Manager/KMS), revisar repositorios, habilitar alerta
+                        ante uso inusual de credenciales.</p>
+                    <p class="consequences"><strong>Consecuencias:</strong> Control total del entorno, despliegue de
+                        malware, eliminación de datos.</p>
+                </div>
+
+                <div class="attack-card">
+                    <h3>E Inseguridad en almacenamiento (ej.: buckets S3 públicos)</h3>
+                    <p class="definition"><strong>Qué es:</strong> Buckets o blobs accesibles públicamente o sin control
+                        de acceso.</p>
+                    <p class="prevention"><strong>Prevención / Mitigación:</strong> Reglas de bloqueo público por
+                        defecto, cifrado en reposo, auditorías periódicas.</p>
+                    <p class="consequences"><strong>Consecuencias:</strong> Fuga masiva de datos, pérdida de
+                        confidencialidad, sanciones regulatorias.</p>
+                </div>
+
+                <div class="attack-card">
+                    <h3>F Ataques a la cadena de suministro (supply chain)</h3>
+                    <p class="definition"><strong>Qué es:</strong> Código, imágenes de contenedor o dependencias
+                        comprometidas que se introducen en entornos cloud.</p>
+                    <p class="prevention"><strong>Prevención / Mitigación:</strong> Firmado de artefactos, verificación
+                        de la integridad, policies de SBOM, escaneo de imágenes y dependencias, CI/CD seguro.</p>
+                    <p class="consequences"><strong>Consecuencias:</strong> Infección amplia de servicios, backdoors en
+                        producción.</p>
+                </div>
+
+                <div class="attack-card">
+                    <h3>G Escape de contenedores / VM escape</h3>
+                    <p class="definition"><strong>Qué es:</strong> Vulnerabilidades que permiten a un contenedor o VM
+                        romper el aislamiento y acceder al host o a otras cargas.</p>
+                    <p class="prevention"><strong>Prevención / Mitigación:</strong> Mantener runtime y hypervisor
+                        actualizados, usar imágenes mínimas y escaneadas, aplicar políticas de seguridad en el runtime
+                        (seccomp, AppArmor).</p>
+                    <p class="consequences"><strong>Consecuencias:</strong> Compromiso de host y de múltiples tenants,
+                        exfiltración de datos.</p>
+                </div>
+
+                <div class="attack-card">
+                    <h3>H Inseguridad en multi-tenancy / aislamiento insuficiente</h3>
+                    <p class="definition"><strong>Qué es:</strong> Fallos que permiten a un tenant ver o interactuar con
+                        recursos de otro.</p>
+                    <p class="prevention"><strong>Prevención / Mitigación:</strong> Buen diseño de separación (VPCs,
+                        proyectos separados), network segmentation, políticas de cuotas y permisos estrictos.</p>
+                    <p class="consequences"><strong>Consecuencias:</strong> Fuga entre clientes, incumplimiento
+                        contractual/legislativo.</p>
+                </div>
+
+                <div class="attack-card">
+                    <h3>I Denegación de servicio y abuso de recursos</h3>
+                    <p class="definition"><strong>Qué es:</strong> DDoS o explotación que consume recursos cloud
+                        (facturación exorbitante, agotamiento de CPU/RAM).</p>
+                    <p class="prevention"><strong>Prevención / Mitigación:</strong> Protecciones DDoS del proveedor,
+                        auto-scaling controlado, alerts de gasto inusual, WAF y rate limiting.</p>
+                    <p class="consequences"><strong>Consecuencias:</strong> Interrupción de servicio, costos
+                        inesperados, degradación del servicio.</p>
+                </div>
+
+                <div class="attack-card">
+                    <h3>J Falta de cifrado o gestión pobre de claves</h3>
+                    <p class="definition"><strong>Qué es:</strong> Datos en tránsito o reposo sin cifrar o con claves
+                        mal gestionadas.</p>
+                    <p class="prevention"><strong>Prevención / Mitigación:</strong> Cifrado por defecto, uso de HSM/KMS,
+                        rotación de claves, separación de roles para acceso a claves.</p>
+                    <p class="consequences"><strong>Consecuencias:</strong> Exposición de datos sensibles,
+                        incumplimiento normativo.</p>
+                </div>
+
+                <div class="attack-card">
+                    <h3>K Insider threats (amenazas internas)</h3>
+                    <p class="definition"><strong>Qué es:</strong> Empleados o contratistas que abusan de privilegios.
+                    </p>
+                    <p class="prevention"><strong>Prevención / Mitigación:</strong> Least privilege, segregación de
+                        funciones, registros/alertas de actividad, revisiones periódicas de accesso.</p>
+                    <p class="consequences"><strong>Consecuencias:</strong> Sabotaje, robo de datos, daño reputacional.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="consecuencias">
+            <h2>
+                <i class="fas fa-exclamation-triangle"></i> 4. Consecuencias de que se
+                materialicen las vulnerabilidades
+            </h2>
+            <p>
+                Cuando una vulnerabilidad es explotada, las consecuencias pueden ser
+                graves:
+            </p>
+            <ul>
+                <li>
+                    Pérdida o filtración de datos sensibles (usuarios, contraseñas,
+                    información financiera).
+                </li>
+                <li>Daño a la reputación de la empresa o institución.</li>
+                <li>Pérdidas económicas por inactividad, multas o demandas.</li>
+                <li>Interrupción de servicios esenciales.</li>
+                <li>
+                    Desconfianza de los usuarios, lo cual afecta directamente la
+                    continuidad del negocio.
+                </li>
+            </ul>
+        </section>
+
+        <section id="conclusiones" class="conclusion">
+            <h2><i class="fas fa-brain"></i> 5. Conclusiones</h2>
+            <p>
+                La seguridad web no depende de una sola herramienta, sino de una
+                cultura de prevención constante.
+            </p>
+            <p>
+                Implementar buenas prácticas, realizar pruebas de seguridad, capacitar
+                al personal y actualizar los sistemas son pasos esenciales para
+                reducir riesgos.
+            </p>
+            <p>
+                En un entorno tan digitalizado, la seguridad es una responsabilidad
+                compartida entre desarrolladores, administradores y usuarios.
+            </p>
+        </section>
+
+        <section id="recomendaciones">
+            <h2><i class="fas fa-book"></i> 6. Recomendaciones adicionales</h2>
+            <div class="recommendations">
+                <div class="recommendation">
+                    <i class="fas fa-user-shield"></i>
+                    <p>
+                        Aplicar el principio de mínimo privilegio en usuarios y sistemas.
+                    </p>
+                </div>
+                <div class="recommendation">
+                    <i class="fas fa-chart-line"></i>
+                    <p>
+                        Monitorear continuamente el tráfico y los registros del servidor.
+                    </p>
+                </div>
+                <div class="recommendation">
+                    <i class="fas fa-cogs"></i>
+                    <p>
+                        Usar frameworks modernos que ya integren medidas de seguridad.
+                    </p>
+                </div>
+                <div class="recommendation">
+                    <i class="fas fa-save"></i>
+                    <p>
+                        Realizar copias de seguridad periódicas de bases de datos y
+                        archivos críticos.
+                    </p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
-      <div class="container footer-content">
-        <p>
-          © 2023 Seguridad Web - Exposición sobre Vulnerabilidades y Ataques en
-          la Web
-        </p>
-        <p>
-          Diseñado para crear conciencia sobre la importancia de la seguridad en
-          aplicaciones web
-        </p>
-      </div>
+        <div class="container footer-content">
+            <p>
+                © 2023 Seguridad Web - Exposición sobre Vulnerabilidades y Ataques en
+                la Web
+            </p>
+            <p>
+                Diseñado para crear conciencia sobre la importancia de la seguridad en
+                aplicaciones web
+            </p>
+        </div>
     </footer>
 
     <script>
-      // Smooth scrolling for navigation links
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+            anchor.addEventListener("click", function (e) {
+                e.preventDefault();
 
-          const targetId = this.getAttribute("href");
-          const targetElement = document.querySelector(targetId);
+                const targetId = this.getAttribute("href");
+                const targetElement = document.querySelector(targetId);
 
-          window.scrollTo({
-            top: targetElement.offsetTop - 100,
-            behavior: "smooth",
-          });
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: "smooth",
+                });
+            });
         });
-      });
     </script>
-  </body>
+</body>
+
 </html>
